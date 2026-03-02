@@ -6,10 +6,56 @@
 `macnotes-mcp` is an MCP-focused fork of [RhetTbull/macnotesapp](https://github.com/RhetTbull/macnotesapp).
 It works with Apple macOS Notes.app from the command line and adds an async, cache-backed MCP server.
 
-## Installation
-## Installation
+## Quick Start
 
-The recommended way to install `macnotesapp` is via the [uv](https://github.com/astral-sh/uv) python package manager tool.
+Clone and install dependencies:
+
+```bash
+git clone https://github.com/zorrobyte/macnotes-mcp.git
+cd macnotes-mcp
+uv sync
+```
+
+Run MCP over stdio:
+
+```bash
+uv run notes-mcp
+```
+
+Run MCP over local HTTP:
+
+```bash
+MACNOTES_MCP_TRANSPORT=streamable-http MACNOTES_MCP_PORT=8765 uv run notes-mcp-daemon
+```
+
+### Install as macOS background service (launchd)
+
+```bash
+./scripts/install_service.sh
+```
+
+Uninstall:
+
+```bash
+./scripts/uninstall_service.sh
+```
+
+### Add to mcporter / OpenClaw
+
+One command setup:
+
+```bash
+./scripts/setup_mcporter.sh
+```
+
+This configures:
+
+* `mcporter` server `macnotes-mcp` -> `http://127.0.0.1:8765/mcp`
+* `openclaw` skill override `skills.entries.apple-notes.enabled=false`
+
+## Installation (CLI)
+
+The recommended way to install `macnotes-mcp` is via the [uv](https://github.com/astral-sh/uv) python package manager tool.
 
 ### Installation using `uv`
 
@@ -29,20 +75,25 @@ uv self update
 * Type the following into Terminal:
 
 ```bash
-uv tool install --python 3.13 macnotesapp
+uv tool install --python 3.13 macnotes-mcp
 ```
 
-* Now you should be able to run `macnotesapp` by typing: `macnotesapp`
+* Run MCP server: `notes-mcp`
+* Run legacy CLI: `notes`
 
-Once you've installed macnotesapp with `uv`, to upgrade to the latest version:
+Once you've installed `macnotes-mcp` with `uv`, to upgrade:
 
 ```bash
-uv tool upgrade macnotesapp
+uv tool upgrade macnotes-mcp
 ```
 
-If you want to try `macnotesapp` without installing it, you can run `uv tool run --python 3.13 macnotesapp` or `uvx --python 3.13 macnotesapp`.
+If you want to try without installing:
 
-Note: If installing on an older version of macOS and you encounter issues installing with uv, try installing python 3.13 from [python.org](https://www.python.org/downloads/) then running uv to install macnotesapp.
+```bash
+uvx --python 3.13 macnotes-mcp notes-mcp
+```
+
+Note: If installing on an older version of macOS and you encounter issues with `uv`, install Python 3.13 from [python.org](https://www.python.org/downloads/) first.
 
 **Note**: Currently tested on MacOS 10.15.7/Catalina and 13.1/Ventura.
 
@@ -64,15 +115,9 @@ Once you have installed `homebrew`, you can install the CLI in the terminal with
 
 Full documentation available at [https://RhetTbull.github.io/macnotesapp/](https://RhetTbull.github.io/macnotesapp/)
 
-## MCP Server
+## MCP Tools
 
-This project now includes an MCP server entrypoint:
-
-```bash
-uv run notes-mcp
-```
-
-The server provides cache-backed, async tools for Notes operations:
+The MCP server provides cache-backed async tools:
 
 * `notes_accounts`
 * `notes_sync_full`
@@ -87,11 +132,12 @@ The server provides cache-backed, async tools for Notes operations:
 * `notes_update`
 * `notes_delete`
 * `notes_move`
+* `notes_health`
 
 By default, the server will bootstrap the local cache with a full sync on first run if the cache is empty. To disable this behavior:
 
 ```bash
-MACNOTESAPP_MCP_BOOTSTRAP_SYNC=0 uv run notes-mcp
+MACNOTES_MCP_BOOTSTRAP_SYNC=0 uv run notes-mcp
 ```
 
 ## Command Line Usage

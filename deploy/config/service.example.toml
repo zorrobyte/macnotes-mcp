@@ -1,0 +1,11 @@
+[service]
+transport = "streamable-http"
+host = "127.0.0.1"
+port = 8765
+mount_path = "/"
+bootstrap_sync = true
+poll_interval_seconds = 120
+cache_db_path = ""
+log_level = "INFO"
+log_dir = ""
+lock_path = ""

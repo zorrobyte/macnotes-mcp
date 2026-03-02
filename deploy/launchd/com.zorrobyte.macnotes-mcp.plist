@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.zorrobyte.macnotes-mcp</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>__PYTHON_BIN__</string>
+    <string>-m</string>
+    <string>macnotesapp.mcp.daemon</string>
+  </array>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>MACNOTES_MCP_TRANSPORT</key>
+    <string>streamable-http</string>
+    <key>MACNOTES_MCP_HOST</key>
+    <string>127.0.0.1</string>
+    <key>MACNOTES_MCP_PORT</key>
+    <string>8765</string>
+    <key>MACNOTES_MCP_BOOTSTRAP_SYNC</key>
+    <string>1</string>
+    <key>MACNOTES_MCP_LOG_LEVEL</key>
+    <string>INFO</string>
+  </dict>
+
+  <key>WorkingDirectory</key>
+  <string>__REPO_DIR__</string>
+
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+
+  <key>StandardOutPath</key>
+  <string>__LOG_DIR__/launchd.stdout.log</string>
+  <key>StandardErrorPath</key>
+  <string>__LOG_DIR__/launchd.stderr.log</string>
+</dict>
+</plist>

@@ -7,6 +7,7 @@ import contextlib
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 from macnotesapp import NotesApp
@@ -36,9 +37,15 @@ class JobState:
 class AsyncNotesService:
     """Cache-first async service with a single background Apple Events worker."""
 
-    def __init__(self, bootstrap_sync: bool = True):
-        self.cache = AsyncCacheStore()
+    def __init__(
+        self,
+        bootstrap_sync: bool = True,
+        poll_interval_seconds: int = 120,
+        db_path: Path | None = None,
+    ):
+        self.cache = AsyncCacheStore(db_path=db_path)
         self.bootstrap_sync = bootstrap_sync
+        self.poll_interval_seconds = poll_interval_seconds
         self._queue: asyncio.Queue[JobState] = asyncio.Queue()
         self._jobs: dict[str, JobState] = {}
         self._started = False
@@ -256,7 +263,7 @@ class AsyncNotesService:
 
     async def _poll_loop(self) -> None:
         while True:
-            await asyncio.sleep(120)
+            await asyncio.sleep(self.poll_interval_seconds)
             try:
                 await self.sync_incremental()
             except Exception:
