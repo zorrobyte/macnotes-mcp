@@ -1,9 +1,10 @@
-# MacNotesApp
+# macnotes-mcp
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-Work with Apple MacOS Notes.app from the command line. Also includes python interface for scripting Notes.app from your own python code.
+`macnotes-mcp` is an MCP-focused fork of [RhetTbull/macnotesapp](https://github.com/RhetTbull/macnotesapp).
+It works with Apple macOS Notes.app from the command line and adds an async, cache-backed MCP server.
 
 ## Installation
 ## Installation
@@ -62,6 +63,36 @@ Once you have installed `homebrew`, you can install the CLI in the terminal with
 ## Documentation
 
 Full documentation available at [https://RhetTbull.github.io/macnotesapp/](https://RhetTbull.github.io/macnotesapp/)
+
+## MCP Server
+
+This project now includes an MCP server entrypoint:
+
+```bash
+uv run notes-mcp
+```
+
+The server provides cache-backed, async tools for Notes operations:
+
+* `notes_accounts`
+* `notes_sync_full`
+* `notes_sync_incremental`
+* `notes_sync_status`
+* `notes_queue_status`
+* `notes_job_status`
+* `notes_job_wait`
+* `notes_list`
+* `notes_read`
+* `notes_create`
+* `notes_update`
+* `notes_delete`
+* `notes_move`
+
+By default, the server will bootstrap the local cache with a full sync on first run if the cache is empty. To disable this behavior:
+
+```bash
+MACNOTESAPP_MCP_BOOTSTRAP_SYNC=0 uv run notes-mcp
+```
 
 ## Command Line Usage
 

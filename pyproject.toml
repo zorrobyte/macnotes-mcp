@@ -1,7 +1,7 @@
 [project]
-name = "macnotesapp"
+name = "macnotes-mcp"
 version = "0.8.2"
-description = "Work with Apple MacOS Notes.app from the command line. Also includes python interface for scripting Notes.app from your own python code."
+description = "MCP-focused fork of macnotesapp for async, cache-backed Apple Notes access."
 authors = [{ name = "Rhet Turnbull", email = "rturnbull@gmail.com" }]
 license = "MIT"
 readme = "README.md"
@@ -23,14 +23,17 @@ dependencies = [
     "xdg-base-dirs>=6.0.0",
     "lxml-html-clean>=0.1.1",
     "lxml>=5.2.1,<6.0.0",
+    "mcp>=1.13.0,<2.0.0",
 ]
 
 [project.urls]
-Homepage = "https://github.com/RhetTbull/macnotesapp"
-Repository = "https://github.com/RhetTbull/macnotesapp"
+Homepage = "https://github.com/zorrobyte/macnotes-mcp"
+Repository = "https://github.com/zorrobyte/macnotes-mcp"
+"Upstream (forked from)" = "https://github.com/RhetTbull/macnotesapp"
 
 [project.scripts]
 notes = "macnotesapp.__main__:cli_main"
+notes-mcp = "macnotesapp.mcp.server:run"
 
 [dependency-groups]
 dev = [
